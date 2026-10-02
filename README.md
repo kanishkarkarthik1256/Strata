@@ -1,6 +1,6 @@
-# DroneRecon
+# Strata
 
-DroneRecon turns drone video and associated telemetry into inspectable 3D
+Strata turns drone video and associated telemetry into inspectable 3D
 reconstructions. The web interface submits and tracks jobs, while the FastAPI
 backend extracts useful frames, estimates camera poses, builds sparse and dense
 geometry, and prepares reconstruction artifacts for the 3D viewer.
