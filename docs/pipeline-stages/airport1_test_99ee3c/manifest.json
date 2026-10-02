@@ -1,0 +1,116 @@
+{
+  "run": "airport1_test_99ee3c",
+  "rendered_at_utc": "2026-09-29T19:42:36Z",
+  "source_run_dir": "/Users/macbook/Documents/FreeBuff/drone-recon/backend/data/storage/airport1_test_99ee3c",
+  "supersample": 2,
+  "camera": {
+    "azimuth_deg": 142.5,
+    "elevation_deg": 34.0,
+    "projection": "orthographic",
+    "up_axis": [
+      0.01832,
+      -0.03048,
+      0.99937
+    ],
+    "scene_extent_m": [
+      1549.57,
+      1538.59,
+      78.82
+    ]
+  },
+  "background": "transparent (RGBA, alpha=0)",
+  "renderer": "numpy software rasteriser (Open3D offscreen is EGL-blocked on macOS)",
+  "steps": [
+    {
+      "file": "01_raw_drone_data.png",
+      "label": "Raw Drone Data",
+      "source": "frames/*.jpg (extracted from video.mp4)",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "opaque_pct": 42.3,
+      "px_per_metre_at_ss": null,
+      "fit_trim_pct": null,
+      "seconds": 3.2
+    },
+    {
+      "file": "02_sparse_point_cloud_and_camera_poses.png",
+      "label": "Sparse Point Cloud & Camera Poses",
+      "source": "sparse_model.ply + poses.json",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "opaque_pct": 8.6,
+      "px_per_metre_at_ss": 2.536,
+      "fit_trim_pct": 0.3,
+      "seconds": 1.2
+    },
+    {
+      "file": "03_filtered_sparse_cloud_aligned_trajectory.png",
+      "label": "Filtered Sparse Cloud with Aligned Trajectory",
+      "source": "sparse_model_consistent.ply + poses.json",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "opaque_pct": 7.8,
+      "px_per_metre_at_ss": 2.536,
+      "fit_trim_pct": 0.3,
+      "seconds": 1.2
+    },
+    {
+      "file": "04_per_view_depth_maps.png",
+      "label": "Per-view Depth Maps",
+      "source": "depth/*.npy",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "opaque_pct": 39.5,
+      "px_per_metre_at_ss": null,
+      "fit_trim_pct": null,
+      "seconds": 2.7
+    },
+    {
+      "file": "05_dense_point_cloud.png",
+      "label": "Dense Point Cloud",
+      "source": "dense/dense_model.ply",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "opaque_pct": 31.0,
+      "px_per_metre_at_ss": 2.718,
+      "fit_trim_pct": 0.0,
+      "seconds": 24.8
+    },
+    {
+      "file": "06_textured_3d_mesh.png",
+      "label": "Textured 3D Mesh",
+      "source": "mesh/mesh_viewer.glb (baked atlas)",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "opaque_pct": 40.8,
+      "px_per_metre_at_ss": 3.317,
+      "fit_trim_pct": 0.3,
+      "seconds": 14.2
+    },
+    {
+      "file": "07_validated_3d_model.png",
+      "label": "Validated 3D Model",
+      "source": "mesh/mesh_viewer.glb + quality_report.json",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "opaque_pct": 41.7,
+      "px_per_metre_at_ss": 3.317,
+      "fit_trim_pct": 0.3,
+      "seconds": 13.5
+    }
+  ]
+}

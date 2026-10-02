@@ -1,0 +1,103 @@
+{
+  "generated_at": "2026-09-22T10:39:52.818193+00:00",
+  "criterion": "\u2014 STRATA ENGINEERING CRITERION (the SIH specification does\nnot define a statistic; this is documented and applied consistently):\n    certified \u22641 m  \u27fa  3D RMSE \u2264 1.0 m  AND  3D P95 \u2264 1.0 m\n    measured STRATA\u2192reference (accuracy direction), independent reference,\n    registration residual reported alongside. Coverage is reported separately\n    and never converted into accuracy. A median \u22641 m is NEVER promoted to a\n    whole-reconstruction \u22641 m claim.",
+  "dataset_split": {
+    "development": [
+      "airport8",
+      "airport3"
+    ],
+    "held_out": [
+      "berliner_dom1",
+      "berliner_dom3",
+      "bundestag3"
+    ]
+  },
+  "scenes": [
+    {
+      "scene": "airport8",
+      "run_id": "data_run_20260919_194154_5578f4",
+      "split": "development",
+      "N_reference_points": 2923666,
+      "median_m": 5.3181,
+      "rmse_m": 10.8563,
+      "p95_m": 24.5611,
+      "within_1m_pct": 7.47,
+      "horizontal_median_m": 0.8775,
+      "vertical_abs_median_m": 4.1137,
+      "recon_self_nn_median_m": 1.4923,
+      "registration_scale": 1.0,
+      "registration_residual_median_m": 0.0,
+      "status": "VALIDATION AVAILABLE \u2014 ABOVE 1m"
+    },
+    {
+      "scene": "airport3",
+      "run_id": "data_run_20260920_190432_ff9e3f",
+      "split": "development",
+      "N_reference_points": 2605745,
+      "median_m": 1.1767,
+      "rmse_m": 2.3482,
+      "p95_m": 3.6842,
+      "within_1m_pct": 43.34,
+      "horizontal_median_m": 0.2431,
+      "vertical_abs_median_m": 1.0487,
+      "recon_self_nn_median_m": 0.3054,
+      "registration_scale": 1.0,
+      "registration_residual_median_m": 0.0,
+      "status": "VALIDATION AVAILABLE \u2014 ABOVE 1m"
+    },
+    {
+      "scene": "berliner_dom1",
+      "run_id": "data_run_20260920_063554_ba9bde",
+      "split": "held-out validation",
+      "N_reference_points": 2834049,
+      "median_m": 3.7857,
+      "rmse_m": 8.2101,
+      "p95_m": 16.3067,
+      "within_1m_pct": 11.45,
+      "horizontal_median_m": 1.7204,
+      "vertical_abs_median_m": 1.9543,
+      "recon_self_nn_median_m": 2.9635,
+      "registration_scale": 1.0,
+      "registration_residual_median_m": 0.0,
+      "status": "VALIDATION AVAILABLE \u2014 ABOVE 1m"
+    },
+    {
+      "scene": "berliner_dom3",
+      "run_id": "data_run_20260920_075959_abf638",
+      "split": "held-out validation",
+      "N_reference_points": 2910012,
+      "median_m": 3.6832,
+      "rmse_m": 7.4043,
+      "p95_m": 15.9689,
+      "within_1m_pct": 10.6,
+      "horizontal_median_m": 1.7099,
+      "vertical_abs_median_m": 1.9376,
+      "recon_self_nn_median_m": 1.4842,
+      "registration_scale": 1.0,
+      "registration_residual_median_m": 0.0,
+      "status": "VALIDATION AVAILABLE \u2014 ABOVE 1m"
+    },
+    {
+      "scene": "bundestag3",
+      "run_id": "data_run_20260920_102621_76e40f",
+      "split": "held-out validation",
+      "N_reference_points": 2536267,
+      "median_m": 5.4241,
+      "rmse_m": 10.4674,
+      "p95_m": 23.3646,
+      "within_1m_pct": 7.73,
+      "horizontal_median_m": 1.3449,
+      "vertical_abs_median_m": 3.5538,
+      "recon_self_nn_median_m": 3.4247,
+      "registration_scale": 1.0,
+      "registration_residual_median_m": 0.0,
+      "status": "VALIDATION AVAILABLE \u2014 ABOVE 1m"
+    },
+    {
+      "scene": "airport_53_8f0e90",
+      "split": "development",
+      "status": "NOT CERTIFIED \u2014 INSUFFICIENT GEOREFERENCING",
+      "reason": "GPS telemetry present but matched GPS-prior frames = 0 (telemetry carries no per-frame geodetic correspondence for this run) and no independent reference exists; relative reconstruction quality is available but no absolute spatial accuracy can be certified."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>STRATA pipeline stages — airport1_test_99ee3c</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; padding: 48px; font: 14px/1.5 -apple-system, "Segoe UI", sans-serif;
+         background: #0b0f14; color: #e6edf3; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  p.sub { color: #8b949e; margin: 0 0 32px; }
+  .strip { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 16px; }
+  figure { flex: 0 0 auto; width: 409px; margin: 0;
+            background: #11171f; border: 1px solid #1f2a36; border-radius: 14px;
+            padding: 14px; }
+  figure img { width: 100%; height: auto; display: block;
+                background: repeating-conic-gradient(#1a222c 0% 25%, #131a22 0% 50%)
+                            50%/18px 18px; border-radius: 8px; }
+  figcaption { margin-top: 12px; font-weight: 600; }
+  .src { display: block; margin-top: 4px; color: #6e7d8f; font-size: 11px;
+          font-family: ui-monospace, monospace; }
+</style></head>
+<body>
+  <h1>STRATA pipeline stages — airport1_test_99ee3c</h1>
+  <p class="sub">Real artifacts from this run, 2048&times;2048 RGBA, transparent background.</p>
+  <div class="strip">
+    <figure><img src="01_raw_drone_data.png" alt="Raw Drone Data"><figcaption>Raw Drone Data</figcaption><span class="src">frames/*.jpg (extracted from video.mp4)</span></figure>
+    <figure><img src="02_sparse_point_cloud_and_camera_poses.png" alt="Sparse Point Cloud & Camera Poses"><figcaption>Sparse Point Cloud & Camera Poses</figcaption><span class="src">sparse_model.ply + poses.json</span></figure>
+    <figure><img src="03_filtered_sparse_cloud_aligned_trajectory.png" alt="Filtered Sparse Cloud with Aligned Trajectory"><figcaption>Filtered Sparse Cloud with Aligned Trajectory</figcaption><span class="src">sparse_model_consistent.ply + poses.json</span></figure>
+    <figure><img src="04_per_view_depth_maps.png" alt="Per-view Depth Maps"><figcaption>Per-view Depth Maps</figcaption><span class="src">depth/*.npy</span></figure>
+    <figure><img src="05_dense_point_cloud.png" alt="Dense Point Cloud"><figcaption>Dense Point Cloud</figcaption><span class="src">dense/dense_model.ply</span></figure>
+    <figure><img src="06_textured_3d_mesh.png" alt="Textured 3D Mesh"><figcaption>Textured 3D Mesh</figcaption><span class="src">mesh/mesh_viewer.glb (baked atlas)</span></figure>
+    <figure><img src="07_validated_3d_model.png" alt="Validated 3D Model"><figcaption>Validated 3D Model</figcaption><span class="src">mesh/mesh_viewer.glb + quality_report.json</span></figure>
+  </div>
+</body></html>

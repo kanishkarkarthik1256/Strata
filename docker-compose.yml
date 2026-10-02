@@ -1,0 +1,77 @@
+# ============================================================================
+# DroneRecon — Docker Compose
+# ============================================================================
+# Usage:
+#   docker compose up --build          # start everything
+#   docker compose up --build backend  # backend only
+#   docker compose logs -f backend     # stream logs
+# ============================================================================
+
+services:
+  # ---------- FastAPI Backend ----------
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: drone-recon-backend
+    ports:
+      - "${SERVER_PORT:-8000}:8000"
+    volumes:
+      - backend-data:/app/data
+      - model-weights:/app/models/weights
+    env_file:
+      - .env
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8000
+      # Platform auth (see .env.example). Keep PLATFORM_AUTH_MODE=required in
+      # real deployments — disabled preserves pre-Phase-10 open endpoints.
+      - PLATFORM_AUTH_MODE=${PLATFORM_AUTH_MODE:-disabled}
+      - PLATFORM_BOOTSTRAP_ADMIN_EMAIL=${PLATFORM_BOOTSTRAP_ADMIN_EMAIL:-}
+      - PLATFORM_BOOTSTRAP_ADMIN_PASSWORD=${PLATFORM_BOOTSTRAP_ADMIN_PASSWORD:-}
+      - PLATFORM_QUEUE_MAX_WORKERS=${PLATFORM_QUEUE_MAX_WORKERS:-1}
+      - DEPLOYMENT=${DEPLOYMENT:-production}
+    # GPU passthrough (requires nvidia-docker / NVIDIA Container Toolkit)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/ready')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - drone-recon-net
+
+  # ---------- React Frontend ----------
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: drone-recon-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - drone-recon-net
+
+# ---------- Volumes (persistent data) ----------
+volumes:
+  backend-data:
+    driver: local
+  model-weights:
+    driver: local
+
+# ---------- Network ----------
+networks:
+  drone-recon-net:
+    driver: bridge

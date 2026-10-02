@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Environment
+.env
+.env.local
+
+# Data (runtime storage — too large for git)
+data/
+output/
+outputs/
+backend/outputs/
+debug/
+models/weights/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes (local mounts)
+
+# Node / frontend build products
+node_modules/
+frontend/dist/
+frontend/.vite/
+.vite/
+*.tsbuildinfo
+
+# Archived investigation scripts (kept locally, not part of the product)
+backend/scripts/attic/
+
+# Run artifacts & model weights (regenerated / downloadable — never commit)
+output/
+backend/outputs/
+backend/docs/
+backend/models/

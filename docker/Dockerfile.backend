@@ -1,0 +1,86 @@
+# ============================================================================
+# DroneRecon Backend — Dockerfile
+# ============================================================================
+# Multi-stage build: installs COLMAP + Python deps, then runs FastAPI.
+# Supports NVIDIA GPU passthrough via --gpus flag in docker-compose.
+# ============================================================================
+
+FROM python:3.11-slim AS base
+
+# Prevent Python from buffering stdout/stderr (important for Docker logs)
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# System dependencies: COLMAP, ffmpeg, OpenCV headless deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        wget \
+        unzip \
+        libgl1-mesa-glx \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# ---------- COLMAP ----------
+# Install COLMAP from the official release (Ubuntu 22.04 builds)
+ARG COLMAP_VERSION=3.9.1
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libboost-all-dev \
+        libfreeimage-dev \
+        libglew-dev \
+        libgflags-dev \
+        libgoogle-glog-dev \
+        libhdf5-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libproto-dev \
+        libsqlite3-dev \
+    && cd /tmp \
+    && wget -q "https://github.com/colmap/colmap/archive/refs/tags/${COLMAP_VERSION}.tar.gz" \
+    && tar xzf "${COLMAP_VERSION}.tar.gz" \
+    && cd "colmap-${COLMAP_VERSION}" \
+    && mkdir build && cd build \
+    && cmake .. -DCMAKE_BUILD_TYPE=Release -DTESTS_ENABLED=OFF \
+    && make -j"$(nproc)" \
+    && make install \
+    && cd / && rm -rf /tmp/colmap-* \
+    && rm -rf /var/lib/apt/lists/*
+
+# ---------- Python dependencies ----------
+WORKDIR /app
+
+# Copy only dependency files first (Docker layer caching)
+COPY backend/pyproject.toml ./
+RUN pip install --no-cache-dir ".[dev]" 2>/dev/null || pip install --no-cache-dir \
+        fastapi uvicorn[standard] python-multipart starlette \
+        pydantic pydantic-settings python-dotenv \
+        sqlalchemy aiosqlite \
+        structlog \
+        opencv-python-headless Pillow \
+        numpy scipy \
+        torch torchvision \
+        open3d trimesh pygltflib \
+        pyproj piexif \
+        imagehash \
+        laspy \
+        tqdm aiofiles httpx
+
+# Copy the application code
+COPY backend/ .
+
+# Ensure data directory exists
+RUN mkdir -p /app/data/storage /app/models/weights
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')" || exit 1
+
+CMD ["python", "-m", "uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]

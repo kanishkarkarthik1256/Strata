@@ -1,0 +1,864 @@
+/* ================================================================
+   STRATA — Global Styles
+   Design language: "strata" — green-tinted obsidian base, layered
+   surfaces, emerald accent drawn from the logo, monospace instrument
+   labels. Signature: stacked layer-lines (dividers) and the strata
+   stack on the processing screen (layers fill as stages complete).
+   ================================================================ */
+
+:root {
+  /* Base — flat near-black chrome (FinPoint-style) */
+  --obsidian: #0d0d0d;
+  --stratum-1: #141414;
+  --stratum-2: #1c1c1c;
+  --stratum-3: #262626;
+
+  /* Accent — from the STRATA logo */
+  --emerald: #10b981;
+  --emerald-bright: #4ade80;
+  --emerald-dim: rgba(16, 185, 129, 0.14);
+  --emerald-line: rgba(16, 185, 129, 0.4);
+
+  /* Text */
+  --silver: #d4d4d4;
+  --white: #fafafa;
+  --mist: #9c9c9c;
+  --fog: #6b6b6b;
+
+  /* Signals */
+  --clay: #f5a623;
+  --clay-dim: rgba(245, 166, 35, 0.14);
+  --rust: #f43f2e;
+  --rust-dim: rgba(244, 63, 46, 0.14);
+  --sky: #38bdf8;
+  --sky-dim: rgba(56, 189, 248, 0.14);
+  /* Signal TEXT colours — pastels tuned for the dark shell, remapped in the
+     light theme where they would otherwise sit at ~1.5:1 contrast. */
+  --ok-text: #34d399;
+  --warn-text: #fbbf24;
+  --danger-text: #fca5a5;
+  --danger: #ef4444;
+  /* Text drawn ON the emerald accent. */
+  --on-accent: #06251b;
+
+  /* Legacy aliases (existing pages reference these) */
+  --green-50: var(--emerald-dim);
+  --green-100: var(--emerald-dim);
+  --green-200: var(--emerald-line);
+  --green-500: var(--emerald);
+  --green-600: var(--emerald);
+  --green-700: var(--emerald-bright);
+  --green-800: var(--emerald-bright);
+  --gray-50: var(--stratum-2);
+  --gray-100: var(--stratum-2);
+  --gray-200: var(--stratum-3);
+  --gray-300: var(--fog);
+  --gray-400: var(--mist);
+  --gray-500: var(--mist);
+  --gray-600: var(--silver);
+  --gray-700: var(--silver);
+  --gray-800: var(--silver);
+  --gray-900: var(--white);
+
+  --bg: var(--obsidian);
+  --card: var(--stratum-1);
+  --border: rgba(255, 255, 255, 0.08);
+  /* Chrome sitting ON TOP of imagery (stat chips, notices). */
+  --overlay: rgba(10, 14, 13, 0.88);
+  /* Fill painted behind the transparent WebGL canvas. */
+  --viewer-backdrop:
+    radial-gradient(120% 80% at 50% 8%, #2b3340 0%, #1a222d 42%, #0b1015 100%);
+  --hairline: rgba(255, 255, 255, 0.09);
+  --shadow-sm: none;
+  --shadow: none;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --sidebar-w: 240px;
+  --topbar-h: 56px;
+
+  /* Signature: strata layer-lines divider */
+  --strata-lines: repeating-linear-gradient(
+    180deg,
+    var(--emerald-line) 0px,
+    var(--emerald-line) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--silver);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------------------------------------------
+   Light theme.
+   Every rule below reads these tokens, so the light shell is a token
+   swap rather than a second stylesheet. The emerald accent is darkened
+   (it is unreadable as text on white) and the signal colours are shifted
+   one step darker for the same reason; the dark theme is unchanged and
+   remains the default.
+   ------------------------------------------------------------------ */
+html[data-theme="light"] {
+  --obsidian: #eef1f0;
+  --stratum-1: #ffffff;
+  --stratum-2: #f6f8f7;
+  --stratum-3: #e7ebe9;
+
+  --emerald: #0b7a58;
+  /* Darkened from the dark theme's #34d399-derived bright: measured on
+     white the un-darkened tone lands at 4.08:1, just under WCAG AA. */
+  --emerald-bright: #0a7d5a;
+  --emerald-dim: rgba(11, 122, 88, 0.10);
+  --emerald-line: rgba(11, 122, 88, 0.34);
+
+  --silver: #22302b;
+  --white: #0f1a16;
+  /* Muted tones are deliberately darker than a straight inversion of the
+     dark theme: measured against white they must clear WCAG AA (4.5:1),
+     which the dark theme's mid-greys do not once inverted. */
+  --mist: #44554e;
+  --fog: #5c6d66;
+
+  --clay: #b06a00;
+  --clay-dim: rgba(176, 106, 0, 0.10);
+  --rust: #c0392b;
+  --rust-dim: rgba(192, 57, 43, 0.10);
+  --sky: #0f6f9c;
+  --sky-dim: rgba(15, 111, 156, 0.10);
+  --ok-text: #0b7a58;
+  --warn-text: #8a5a06;
+  --danger-text: #b3261e;
+  --danger: #c0392b;
+  --on-accent: #04241a;
+
+  --bg: var(--obsidian);
+  --card: var(--stratum-1);
+  --border: rgba(16, 30, 25, 0.14);
+  --overlay: rgba(255, 255, 255, 0.92);
+  --hairline: rgba(16, 30, 25, 0.10);
+  /* A light studio sweep: the model must stay the darkest thing on screen. */
+  --viewer-backdrop:
+    radial-gradient(120% 80% at 50% 8%, #ffffff 0%, #e9efec 44%, #cbd6d1 100%);
+}
+
+/* Instrument label — monospace eyebrow used across the console */
+.eyebrow, th, .stat-label, .brand-sub, .nav-version, .sys-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+:focus-visible { outline: 2px solid var(--emerald); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---- App Shell (top taskbar layout) ---- */
+.app-shell { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.app-main { flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.app-content { flex: 1; overflow-y: auto; padding: 20px 28px; min-height: 0; }
+
+/* Every page renders inside this wrapper: one keyed fade per navigation so
+   moving between pages feels continuous rather than a hard swap. */
+.page { animation: page-in 0.22s ease-out; }
+@keyframes page-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Session restore splash */
+.boot {
+  height: 100vh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 14px; color: var(--fog); font-size: 13px;
+}
+.boot-mark { width: 44px; height: 44px; object-fit: contain; opacity: 0.85; animation: boot-pulse 1.4s ease-in-out infinite; }
+@keyframes boot-pulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.95; } }
+
+/* ================================================================
+   SIGN-IN  (the console's front door)
+   ================================================================ */
+.login { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); height: 100vh; }
+.login-panel {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 48px clamp(24px, 7vw, 84px); background: var(--obsidian);
+}
+.login-brand { display: flex; align-items: center; gap: 12px; }
+.login-mark { width: 40px; height: 40px; object-fit: contain; }
+.login-word { height: 26px; width: auto; object-fit: contain; }
+.login-tagline {
+  margin-top: 10px; font-family: var(--font-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.16em; color: var(--fog);
+}
+.login-form { margin-top: 40px; max-width: 380px; display: flex; flex-direction: column; gap: 14px; }
+.login-title { font-size: 24px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; }
+.login-sub { font-size: 13px; color: var(--mist); margin-top: -6px; line-height: 1.55; }
+.login-field { display: flex; flex-direction: column; gap: 6px; }
+.login-field > span {
+  font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--fog);
+}
+.login-field input { width: 100%; padding: 11px 13px; font-size: 14px; }
+.login-error {
+  display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; line-height: 1.5;
+  color: var(--danger-text); background: var(--rust-dim); border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm); padding: 10px 12px;
+}
+.login-submit { justify-content: center; padding: 12px 16px; font-size: 14px; margin-top: 4px; }
+.login-switch {
+  background: none; border: none; color: var(--mist); font-size: 12.5px;
+  text-align: left; cursor: pointer; padding: 2px 0; width: fit-content;
+}
+.login-switch:hover { color: var(--emerald-bright); }
+.login-aside {
+  position: relative; overflow: hidden; display: flex; align-items: center;
+  padding: clamp(32px, 6vw, 72px);
+  background:
+    radial-gradient(120% 100% at 80% 10%, rgba(16, 185, 129, 0.22), transparent 60%),
+    linear-gradient(160deg, var(--stratum-2), var(--obsidian));
+  border-left: 1px solid var(--border);
+}
+.login-aside-inner { max-width: 460px; }
+.login-aside h2 { font-size: clamp(22px, 2.6vw, 32px); line-height: 1.22; color: var(--white); font-weight: 700; letter-spacing: -0.02em; }
+.login-aside ul { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; list-style: none; }
+.login-aside li {
+  position: relative; padding-left: 22px; font-size: 14px; color: var(--mist); line-height: 1.5;
+}
+.login-aside li::before {
+  content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px;
+  border-radius: 2px; background: var(--emerald); box-shadow: 0 0 0 4px var(--emerald-dim);
+}
+/* Narrow viewports: one column, and the decorative panel steps aside.
+   (Declared AFTER the base rules so it actually wins at equal specificity.) */
+@media (max-width: 900px) {
+  .login { grid-template-columns: 1fr; }
+  .login-aside { display: none; }
+  .login-form { margin-top: 28px; }
+}
+
+/* ---- Legacy sidebar (kept for any remaining importers; not in the shell) ---- */
+.sidebar {
+  width: var(--sidebar-w); background: var(--stratum-1); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0;
+}
+.sidebar-brand {
+  padding: 20px 20px 16px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--border);
+  }
+.brand-sub { font-size: 10px; color: var(--fog); line-height: 1.4; }
+.sidebar-nav { flex: 1; padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+  border-radius: var(--radius-sm); text-decoration: none; color: var(--mist);
+  font-size: 14px; font-weight: 500; transition: all 0.15s;
+}
+.nav-item:hover { background: var(--stratum-2); color: var(--white); }
+.nav-item.active { background: var(--emerald-dim); color: var(--emerald-bright); font-weight: 600; }
+.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.sidebar-footer { padding: 12px 20px; border-top: 1px solid var(--border); }
+.nav-version { font-size: 11px; color: var(--fog); }
+
+/* ---- Top bar (taskbar: brand + primary nav + run + account) ---- */
+.topbar {
+  height: var(--topbar-h); background: var(--stratum-1); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 14px; gap: 18px; flex-shrink: 0;
+}
+.brand { display: flex; align-items: center; gap: 9px; text-decoration: none; flex-shrink: 0; }
+.brand-logo { width: 26px; height: 26px; object-fit: contain; display: block; }
+.brand-word { height: 15px; width: auto; object-fit: contain; opacity: 0.92; display: block; }
+.topnav { display: flex; align-items: center; gap: 1px; }
+.topnav .nav-item { padding: 7px 11px; font-size: 13px; white-space: nowrap; }
+/* The topbar is one non-wrapping row inside an `overflow: hidden` shell, so
+   whatever does not fit is clipped rather than scrolled. The run picker holds
+   long mission names, and at ~480 px it pushed the theme toggle and the
+   account menu (the only route to sign out) off-screen with no way to reach
+   them. The picker therefore gives up space first: it is the flexible child,
+   and every ancestor in that chain needs `min-width: 0` for a <select> to
+   shrink below its own content width. */
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.topnav { flex-shrink: 0; }
+@media (max-width: 1180px) {
+  .topnav .nav-label { display: none; } /* icons only when narrow */
+  .topnav .nav-item { padding: 8px 9px; }
+}
+@media (max-width: 900px) {
+  .brand-word, .run-picker-label { display: none; }
+}
+@media (max-width: 640px) {
+  /* Below this the row cannot hold brand + nav + picker + controls, and the
+     picker is the only redundant one — the run is chosen from Missions or a
+     Dashboard row. Yielding here keeps the theme toggle and the account menu
+     (the sole route to sign out) on screen instead of clipped. */
+  .topbar .run-picker { display: none; }
+}
+.topbar-status { display: inline-flex; align-items: center; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; display: block; }
+.topbar-status.ok .status-dot { background: var(--emerald); box-shadow: 0 0 0 3px var(--emerald-dim); }
+.topbar-status.down .status-dot { background: var(--rust); box-shadow: 0 0 0 3px var(--rust-dim); }
+.topbar-status.loading .status-dot { background: var(--fog); }
+.icon-btn {
+  width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm);
+  color: var(--mist); cursor: pointer; font-size: 16px;
+}
+.icon-btn:hover { color: var(--white); background: var(--stratum-2); border-color: var(--border); }
+
+/* Run picker — instrument-style labeller beside the select */
+.run-picker { display: flex; align-items: center; gap: 7px; min-width: 0; flex: 0 1 auto; }
+.run-picker-label {
+  font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--fog);
+}
+
+/* Account menu */
+.account { position: relative; }
+.account-btn {
+  display: flex; align-items: center; gap: 8px; background: transparent; cursor: pointer;
+  border: 1px solid transparent; border-radius: var(--radius-sm); padding: 3px 8px 3px 3px;
+  color: var(--silver); font-size: 12px;
+}
+.account-btn:hover { background: var(--stratum-2); border-color: var(--border); }
+.account-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 40; min-width: 220px;
+  background: var(--stratum-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 6px; animation: menu-in 0.12s ease-out;
+}
+@keyframes menu-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.account-menu-head {
+  display: flex; flex-direction: column; gap: 2px; padding: 8px 10px 10px;
+  border-bottom: 1px solid var(--border); margin-bottom: 6px;
+}
+.account-menu-head strong { font-size: 12px; color: var(--white); font-weight: 600; overflow-wrap: anywhere; }
+.account-role {
+  font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--fog);
+}
+.account-menu-item {
+  width: 100%; display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+  background: none; border: none; border-radius: 6px; color: var(--silver);
+  font-size: 12.5px; text-align: left; cursor: pointer;
+}
+.account-menu-item:hover { background: var(--stratum-3); color: var(--white); }
+.account-menu-item.danger:hover { background: var(--rust-dim); color: var(--danger-text); }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow-sm);
+  position: relative;
+}
+.card::before {
+  content: ""; position: absolute; top: -1px; left: 16px; right: 16px; height: 5px;
+  background: var(--strata-lines); opacity: 0.35; pointer-events: none;
+}
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.card-title { font-size: 14px; font-weight: 700; color: var(--white); }
+
+/* ---- Stat cards ---- */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px 20px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 14px;
+}
+.stat-icon {
+  width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center;
+  justify-content: center; font-size: 20px; flex-shrink: 0;
+  background: var(--emerald-dim); border: 1px solid var(--emerald-line);
+}
+.stat-icon.blue, .stat-icon.purple, .stat-icon.amber { background: var(--stratum-2); }
+.stat-value { font-size: 24px; font-weight: 700; color: var(--white); line-height: 1.2; }
+.stat-label { font-size: 11px; color: var(--mist); text-transform: uppercase; }
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+  border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; border: none;
+}
+.btn-primary { background: var(--emerald); color: #052e1c; }
+.btn-primary:hover { background: var(--emerald-bright); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-secondary { background: var(--stratum-2); color: var(--silver); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--emerald-line); color: var(--white); }
+.btn-ghost { background: transparent; color: var(--mist); }
+.btn-ghost:hover { color: var(--white); }
+.btn-danger { background: var(--rust-dim); color: var(--danger-text); border: 1px solid rgba(239,68,68,.3); }
+.btn-danger:hover { background: rgba(239,68,68,.2); }
+
+/* ---- Status badges ---- */
+.badge {
+  display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+}
+.badge-completed { background: var(--emerald-dim); color: var(--emerald-bright); }
+.badge-processing { background: var(--sky-dim); color: var(--sky); }
+.badge-warning { background: var(--clay-dim); color: var(--warn-text); }
+.badge-failed { background: var(--rust-dim); color: var(--danger-text); }
+.badge-ready { background: var(--stratum-2); color: var(--mist); }
+.badge-info { background: var(--sky-dim); color: var(--sky); }
+
+/* ---- Tables ---- */
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; padding: 10px 12px; font-size: 10px; font-weight: 600; color: var(--fog);
+  text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border);
+}
+td { padding: 12px; font-size: 13px; border-bottom: 1px solid rgba(148, 163, 158, 0.07); color: var(--silver); }
+tbody tr:hover td { background: var(--stratum-2); }
+
+/* ---- Tabs ---- */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.tab {
+  padding: 10px 16px; font-size: 12px; font-weight: 600; color: var(--mist);
+  cursor: pointer; border: none; background: none; transition: all 0.15s;
+  font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.tab:hover { color: var(--white); }
+.tab.active { color: var(--emerald-bright); border-bottom: 2px solid var(--emerald); }
+
+/* ---- Viewer ---- */
+.viewer-container { display: flex; height: calc(100vh - var(--topbar-h) - 48px); gap: 0; }
+.viewer-3d { flex: 1; overflow: hidden; position: relative; }
+/* HUD over the stage: one wrapping row holding the toolbar and the panel
+   toggles, so a narrow stage wraps instead of clipping the last presets or
+   letting two absolutely-positioned clusters overlap. */
+.viewer-hud {
+  position: absolute; top: 12px; left: 12px; right: 12px; z-index: 11;
+  display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px;
+  pointer-events: none;
+}
+.viewer-hud > * { pointer-events: auto; }
+.viewer-toolbar { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+/* HUD chips over the 3D stage. `--overlay` is theme-aware (dark glass on the
+   dark shell, light glass on the light one) and pairs with `--silver`, which
+   flips with it. A hardcoded dark background here left the light theme's dark
+   ink on near-black — every mode/view button unreadable. */
+.viewer-toolbar button {
+  background: var(--overlay); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px;
+  font-size: 12px; cursor: pointer; color: var(--silver); white-space: nowrap;
+}
+.viewer-toolbar button.active { background: var(--emerald); color: var(--on-accent); border-color: var(--emerald); }
+.viewer-toolbar-divider { width: 1px; align-self: stretch; margin: 2px 4px; background: var(--border); }
+.viewer-sidebar {
+  width: 280px; background: var(--stratum-1); border-left: 1px solid var(--border);
+  padding: 16px; overflow-y: auto; flex-shrink: 0;
+}
+.viewer-panel-toggles { display: flex; gap: 4px; }
+.viewer-panel-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--overlay); color: var(--silver); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 9px; font-size: 11px; cursor: pointer; white-space: nowrap;
+}
+.viewer-panel-toggle:hover { border-color: var(--emerald-line); color: var(--white); }
+.viewer-panel-toggle.closed { opacity: 0.75; }
+/* Narrow windows: drop the panels by default width pressure and let the stage breathe. */
+@media (max-width: 1100px) {
+  .viewer-sidebar { width: 230px; padding: 12px; }
+}
+@media (max-width: 900px) {
+  .viewer-container { flex-direction: column; height: auto; }
+  .viewer-stage { min-height: 420px; }
+  .viewer-sidebar { width: auto; border-left: none; border-top: 1px solid var(--border); }
+}
+/* Measured-stat chips over the stage. They wrap: seven of them overflow a
+   narrow stage, and an overflowing flex line stretches every chip to the
+   line's cross size instead of reading as a row of small chips. */
+.viewer-stats {
+  display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px;
+  position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 10;
+}
+.viewer-stat {
+  background: var(--overlay); color: var(--silver); padding: 5px 10px; border-radius: 999px;
+  font-size: 11px; border: 1px solid var(--border); font-family: var(--font-mono);
+  max-width: 100%;
+  backdrop-filter: blur(6px);
+}
+.viewer-stage {
+  flex: 1 1 auto; width: 100%; min-width: 0; border-radius: var(--radius);
+  overflow: hidden; position: relative; min-height: 0; border: 1px solid var(--border);
+  /* Studio backdrop painted BEHIND the transparent WebGL canvas: a soft
+     highlight above the model with a gentle falloff, the way a viewer app
+     presents a model. Theme-scoped so the model always contrasts. */
+  background: var(--viewer-backdrop);
+}
+.viewer-stage .viewer-3d { border-radius: 0; border: none; }
+
+/* Theme toggle pinned to the login screen's own corner (the console has one
+   in the taskbar). Positioned rather than laid out so it never affects the
+   centred panel. */
+.login-theme { position: absolute; top: 18px; right: 18px; z-index: 3; }
+.viewer-empty {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: var(--mist); font-size: 14px; text-align: center; padding: 24px; z-index: 5;
+}
+.viewer-empty.error { color: var(--danger-text); }
+.viewer-heatmap-notice {
+  position: absolute; top: 56px; left: 12px; z-index: 9; max-width: 320px;
+  background: var(--overlay); color: var(--silver); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5;
+}
+
+/* ---- Heatmap legend ---- */
+.heatmap-legend {
+  background: var(--stratum-1); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px; position: absolute; top: 12px; right: 12px; z-index: 10; font-size: 12px; color: var(--silver);
+}
+.heatmap-gradient {
+  height: 12px; border-radius: 4px; margin: 8px 0;
+  background: linear-gradient(to right, #22c55e, var(--ok-text), var(--warn-text), var(--danger));
+}
+.heatmap-labels { display: flex; justify-content: space-between; color: var(--fog); font-size: 11px; }
+.viewer-sidebar .heatmap-legend { position: static; margin-top: 8px; }
+
+/* ---- System status ---- */
+.sys-status { display: flex; flex-direction: column; gap: 8px; }
+.sys-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.sys-label { color: var(--mist); }
+.sys-value { font-weight: 500; display: flex; align-items: center; gap: 6px; color: var(--silver); }
+.sys-value.ok { color: var(--emerald-bright); }
+.sys-value.unavailable { color: var(--fog); }
+
+/* ---- Mission cards ---- */
+.mission-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.mission-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; cursor: pointer; transition: border-color 0.15s;
+}
+.mission-card:hover { border-color: var(--emerald-line); }
+
+/* ---- Pipeline steps ---- */
+.pipeline-steps { display: flex; flex-direction: column; gap: 0; }
+.pipeline-step {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid rgba(148, 163, 158, 0.07); font-size: 13px;
+}
+.step-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.step-dot.completed { background: var(--emerald); }
+.step-dot.processing { background: var(--sky); animation: pulse 1.5s infinite; }
+.step-dot.waiting { background: var(--stratum-3); }
+.step-dot.failed { background: var(--rust); }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ---- Section headers / page ---- */
+.section-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.section-subtitle { font-size: 12px; color: var(--mist); margin-bottom: 16px; }
+/* Title on the left, the page's action on the right, stacked when the window
+   is too narrow for both. One rule, because the three pages that use this had
+   declared the same layout three ways — two in Tailwind utilities this project
+   does not ship (inert, so the action button just fell below the title) and
+   one in inline styles. */
+.page-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 16px; margin-bottom: 24px;
+}
+.page-header h2 { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -0.01em; }
+.page-header p { font-size: 14px; color: var(--mist); margin-top: 4px; }
+@media (max-width: 767px) {
+  .page-header { flex-direction: column; align-items: stretch; }
+}
+
+/* Nameless-in-CSS classes used by the run tables: `mono` names the monospace
+   font the run id should render in, `row-sub` the small subordinate line under
+   a mission name. Without rules both rendered at body size in the body font. */
+.mono { font-family: var(--font-mono); }
+.row-sub { font-size: 11px; color: var(--fog); }
+
+/* ---- Form controls ---- */
+input[type="text"], input[type="email"], input[type="password"], select, textarea {
+  background: var(--obsidian); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--white); font-size: 13px; padding: 8px 12px; outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--emerald-line); }
+select { cursor: pointer; }
+.run-select {
+  padding: 7px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 12px; color: var(--silver); background: var(--stratum-2); outline: none;
+  max-width: 340px; min-width: 0; text-overflow: ellipsis;
+}
+.run-select:focus { border-color: var(--emerald-line); }
+.user-avatar {
+  width: 24px; height: 24px; border-radius: 50%; background: var(--emerald-dim); color: var(--emerald-bright);
+  display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
+  border: 1px solid var(--emerald-line); flex-shrink: 0;
+}
+.user-email { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---- Empty / error states ---- */
+.empty-state { text-align: center; padding: 48px 24px; color: var(--fog); }
+.empty-state-icon { font-size: 48px; margin-bottom: 12px; }
+.error-boundary { max-width: 560px; margin: 40px auto; }
+
+/* ================================================================
+   NEW MISSION PAGE  (/new-mission)
+   ================================================================ */
+.nm-wrap { max-width: 880px; margin: 0 auto; padding-bottom: 48px; }
+.nm-back {
+  display: inline-flex; align-items: center; gap: 6px; background: none; border: none;
+  color: var(--mist); font-size: 13px; cursor: pointer; padding: 4px 0; margin-bottom: 12px;
+}
+.nm-back:hover { color: var(--white); }
+.nm-title { font-size: 26px; font-weight: 800; color: var(--white); letter-spacing: -0.01em; }
+.nm-sub { color: var(--mist); font-size: 14px; margin: 4px 0 28px; }
+
+.nm-sources { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+@media (max-width: 760px) { .nm-sources { grid-template-columns: 1fr; } }
+.nm-source {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; cursor: pointer; text-align: left; transition: border-color 0.15s, background 0.15s;
+  color: var(--silver); position: relative; min-height: 44px;
+}
+.nm-source:hover { border-color: var(--emerald-line); background: var(--stratum-2); }
+.nm-source.selected { border-color: var(--emerald); background: var(--emerald-dim); }
+.nm-source.disabled { opacity: 0.45; cursor: not-allowed; }
+.nm-source-icon { font-size: 22px; margin-bottom: 8px; }
+.nm-source-name { font-weight: 700; font-size: 14px; color: var(--white); }
+.nm-source-desc { font-size: 12px; color: var(--mist); margin-top: 2px; line-height: 1.45; }
+
+.nm-drop {
+  border: 2px dashed var(--stratum-3); border-radius: var(--radius);
+  padding: 40px 24px; text-align: center; color: var(--mist); position: relative;
+  transition: border-color 0.15s, background 0.15s; margin-bottom: 24px;
+}
+.nm-drop:hover, .nm-drop.drag { border-color: var(--emerald-line); background: var(--emerald-dim); }
+.nm-drop input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.nm-drop-icon { font-size: 34px; margin-bottom: 8px; }
+.nm-drop-title { font-weight: 700; color: var(--white); font-size: 15px; }
+.nm-drop-hint { font-size: 12px; margin-top: 4px; }
+
+.nm-video-card {
+  background: var(--stratum-2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; display: flex; flex-direction: column; align-items: stretch;
+  margin-bottom: 24px; min-width: 0;
+}
+/* A server-side video row is a SELECT control, not a launch button — its
+   picked state must be visible, since starting happens on the start bar. */
+.nm-video-card.selected { border-color: var(--emerald); background: var(--emerald-dim); }
+.nm-file-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; }
+.nm-file-row .nm-source-name { min-width: 0; overflow-wrap: anywhere; }
+.nm-video-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+@media (max-width: 640px) { .nm-video-meta { grid-template-columns: repeat(2, 1fr); } }
+.nm-meta-cell {
+  background: var(--obsidian); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 10px; font-size: 13px; color: var(--white); font-family: var(--font-mono);
+}
+.nm-meta-label { display: block; font-size: 9px; color: var(--fog); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+
+/* Client-side footage preview + fitness insights (New Mission) */
+.nm-preview {
+  width: 100%; max-height: 320px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--obsidian);
+  margin-bottom: 12px; display: block;
+}
+.nm-insights { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.nm-insight {
+  display: flex; align-items: baseline; gap: 8px; font-size: 12.5px;
+  font-family: var(--font-mono); line-height: 1.45;
+}
+.nm-insight-dot { flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%; align-self: center; }
+.dot-good { background: var(--ok-text); }
+.dot-fair { background: var(--sky); }
+.dot-poor { background: var(--danger-text); }
+.dot-neutral { background: var(--fog); }
+.nm-insight-label { color: var(--white); font-weight: 600; white-space: nowrap; }
+.nm-insight-detail { color: var(--fog); flex: 1; min-width: 0; }
+
+/* Reconstruction-readiness panel (measured signals, calibrated bands) */
+.nm-readiness {
+  margin-top: 12px; border-radius: var(--radius-sm); padding: 12px 14px;
+  border: 1px solid var(--border); background: var(--stratum-2);
+}
+.nm-readiness-ready { border-color: rgba(52, 211, 153, 0.45); }
+.nm-readiness-risky { border-color: rgba(250, 204, 21, 0.5); }
+.nm-readiness-unlikely { border-color: rgba(248, 113, 113, 0.55); }
+.nm-readiness-head { display: flex; align-items: center; gap: 12px; }
+.nm-readiness-score {
+  font-family: var(--font-mono); font-size: 26px; font-weight: 700; min-width: 44px; text-align: center;
+}
+.nm-readiness-ready .nm-readiness-score { color: var(--ok-text); }
+.nm-readiness-risky .nm-readiness-score { color: var(--warn-text); }
+.nm-readiness-unlikely .nm-readiness-score { color: var(--danger-text); }
+.nm-readiness-verdict { font-weight: 700; font-size: 13px; color: var(--white); }
+.nm-readiness-sub { font-size: 11.5px; color: var(--fog); margin-top: 2px; }
+.nm-readiness-bars { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.nm-readiness-comp { display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-family: var(--font-mono); }
+.nm-readiness-comp-label { width: 110px; color: var(--silver); }
+.nm-readiness-bar { flex: 1; height: 6px; background: var(--obsidian); border-radius: 3px; overflow: hidden; }
+.nm-readiness-fill { display: block; height: 100%; border-radius: 3px; transition: width 0.4s; }
+.fill-good { background: var(--ok-text); }
+.fill-fair { background: var(--sky); }
+.fill-poor { background: var(--danger-text); }
+.fill-unmeasured { background: var(--fog); opacity: 0.4; }
+.nm-readiness-comp-pts { min-width: 44px; text-align: right; color: var(--fog); }
+.nm-readiness-warn {
+  margin-top: 10px; font-size: 12px; line-height: 1.5; color: var(--danger-text);
+  border-top: 1px solid rgba(248, 113, 113, 0.3); padding-top: 8px;
+}
+.nm-start-warn { box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.55); }
+
+.nm-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 640px) { .nm-form-grid { grid-template-columns: 1fr; } }
+.nm-field label { display: block; font-size: 12px; font-weight: 600; color: var(--silver); margin-bottom: 5px; }
+.nm-field input, .nm-field select { width: 100%; }
+
+.nm-upload-bar {
+  background: var(--stratum-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 14px; margin-top: 16px;
+}
+.nm-upload-track { height: 6px; background: var(--obsidian); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.nm-upload-fill { height: 100%; background: var(--emerald); border-radius: 3px; transition: width 0.3s; }
+
+.nm-start-bar {
+  position: sticky; bottom: 0; display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+  padding: 16px 0; margin-top: 24px; border-top: 1px solid var(--border);
+  }
+.nm-start-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+  border-radius: var(--radius-sm); background: var(--emerald); color: var(--on-accent);
+  font-weight: 800; font-size: 13px; letter-spacing: 0.06em; border: none; cursor: pointer;
+  transition: background 0.15s;
+}
+.nm-start-btn:hover { background: var(--emerald-bright); }
+.nm-start-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.nm-error {
+  display: flex; gap: 8px; align-items: flex-start; background: var(--rust-dim);
+  border: 1px solid rgba(239, 68, 68, 0.3); color: var(--danger-text); font-size: 13px;
+  border-radius: var(--radius-sm); padding: 10px 14px; margin: 14px 0;
+}
+
+/* ================================================================
+   PROCESSING SCREEN  (/processing/:jobId)
+   ================================================================ */
+.proc-wrap { max-width: 880px; margin: 0 auto; padding-bottom: 48px; }
+.proc-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.proc-meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--mist); font-family: var(--font-mono); }
+
+/* Stage timeline — one connected rail for all five stages (replaces the old
+   five-bar strata stack + its duplicate card list). The link below the running
+   node fills with that stage's real backend fraction; nothing is invented. */
+.proc-timeline { margin: 20px 0 26px; }
+.proc-tl-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.proc-tl-sub { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+.proc-tl-pct { font-size: 13px; color: var(--gray-500); }
+.proc-tl-overall { margin: 8px 0 14px; }
+.proc-timeline-list { list-style: none; margin: 0; padding: 0; }
+.proc-tl-item { display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: start; padding: 10px 0; }
+.proc-tl-item + .proc-tl-item { border-top: 1px solid var(--hairline); }
+.proc-tl-rail { position: relative; height: 100%; min-height: 26px; }
+.proc-tl-node {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--stratum-2); border: 1px solid var(--border); color: var(--mist);
+}
+.proc-tl-item.completed .proc-tl-node,
+.proc-tl-item.skipped .proc-tl-node { background: var(--emerald-dim); border-color: var(--emerald-line); color: var(--emerald-bright); }
+.proc-tl-item.running .proc-tl-node {
+  background: var(--emerald); border-color: var(--emerald-line); color: var(--on-accent);
+  animation: proc-tl-pulse 1.6s ease-in-out infinite;
+}
+@keyframes proc-tl-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+}
+.proc-tl-item.failed .proc-tl-node { background: var(--rust-dim); border-color: rgba(239, 68, 68, 0.3); color: var(--danger-text); }
+.proc-tl-link {
+  position: absolute; top: 30px; bottom: -12px; left: 50%; width: 2px; margin-left: -1px;
+  background: var(--border);
+}
+/* The link fills top-down with the running stage's fraction; completed links
+   fill fully so the rail reads as one connected progress path. */
+.proc-tl-link::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0;
+  height: var(--tl-fill, 0%);
+  background: var(--emerald); transition: height 0.6s ease;
+}
+.proc-tl-item.completed .proc-tl-link::before { height: 100%; }
+.proc-tl-item.running .proc-tl-link::before { height: var(--tl-fill, 0%); }
+.proc-tl-body { min-width: 0; }
+.proc-stage-name { font-weight: 700; font-size: 13px; color: var(--white); }
+.proc-stage-engine { font-size: 11px; color: var(--fog); font-family: var(--font-mono); margin-top: 2px; }
+.proc-stage-side { font-size: 12px; color: var(--mist); text-align: right; font-family: var(--font-mono); white-space: nowrap; }
+.proc-progress { display: inline-flex; align-items: center; gap: 8px; }
+.proc-progress-track { display: block; width: 120px; height: 6px; background: var(--obsidian); border-radius: 3px; overflow: hidden; }
+.proc-progress-fill { display: block; height: 100%; background: var(--emerald); border-radius: 3px; transition: width 0.5s; }
+.proc-pct { color: var(--emerald-bright); font-weight: 700; }
+
+.proc-banner { border-radius: var(--radius); padding: 22px; margin-bottom: 20px; display: flex; gap: 14px; align-items: flex-start; }
+.proc-banner.ok { background: var(--emerald-dim); border: 1px solid var(--emerald-line); }
+.proc-banner.fail { background: var(--rust-dim); border: 1px solid rgba(239, 68, 68, 0.3); }
+.proc-banner-icon { font-size: 26px; }
+.proc-banner h2 { font-size: 16px; font-weight: 800; color: var(--white); }
+.proc-banner p { font-size: 13px; color: var(--mist); margin-top: 4px; }
+.proc-banner-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+.proc-note {
+  display: flex; gap: 10px; background: var(--stratum-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: var(--mist); margin: 18px 0;
+}
+
+/* Per-stage failure surfacing — dense refusal criteria and per-view depth
+   failures, rendered inside the failing stage's block. */
+.proc-stage-failures {
+  margin-top: 8px; padding: 8px 10px; font-size: 12px; color: var(--mist);
+  background: var(--rust-dim); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: var(--radius-sm);
+}
+.proc-stage-failures strong { color: var(--danger-text); }
+.proc-stage-fail-line { display: inline; }
+
+/* Telemetry summary — flat instrument block, same language as proc-tech */
+.tel-block {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 16px; margin: 18px 0;
+}
+.tel-head { display: flex; align-items: center; gap: 8px; color: var(--mist); }
+.tel-title {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--fog);
+}
+.tel-mode { margin-left: auto; font-size: 11px; color: var(--fog); }
+.tel-ok { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--emerald-bright); }
+.tel-off { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--mist); }
+.tel-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px; margin-top: 10px;
+}
+.tel-stat { background: var(--stratum-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; }
+.tel-stat-label {
+  display: block; font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--fog);
+}
+.tel-stat-value { font-size: 12px; color: var(--white); font-weight: 600; }
+.tel-dropped { font-size: 10px; color: var(--mist); font-weight: 400; }
+.tel-warn {
+  display: flex; align-items: center; gap: 4px; margin-top: 4px;
+  font-size: 10px; font-weight: 500; color: var(--warn-text);
+}
+.tel-note { font-size: 11px; color: var(--mist); margin-top: 8px; }
+.proc-tech { margin-top: 18px; }
+.proc-tech-toggle {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--silver); font-size: 12px; font-weight: 700; padding: 12px 16px; cursor: pointer;
+}
+.proc-tech-toggle:hover { color: var(--white); }
+.proc-tech-body { padding: 16px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+.proc-tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.proc-tech-cell { background: var(--stratum-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; }
+.proc-tech-cell span { display: block; font-size: 9px; color: var(--fog); text-transform: uppercase; letter-spacing: 0.1em; }
+.proc-tech-cell strong { font-size: 12px; color: var(--white); font-weight: 600; }
+.proc-raw {
+  background: var(--obsidian); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px; font-size: 10px; color: var(--emerald-bright); overflow-x: auto; white-space: pre-wrap;
+  font-family: var(--font-mono); max-height: 320px;
+}
+
+/* Stacked-layer divider used between page sections */
+.strata-divider {
+  height: 5px; margin: 22px 0; background: var(--strata-lines); opacity: 0.3; border: none;
+}
